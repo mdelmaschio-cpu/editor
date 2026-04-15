@@ -15,15 +15,22 @@ import { StairPanel } from './stair-panel'
 import { StairSegmentPanel } from './stair-segment-panel'
 import { WallPanel } from './wall-panel'
 import { WindowPanel } from './window-panel'
+import { ZonePanel } from './zone-panel'
 
 export function PanelManager() {
   const selectedIds = useViewer((s) => s.selection.selectedIds)
+  const zoneId = useViewer((s) => s.selection.zoneId)
   const selectedReferenceId = useEditor((s) => s.selectedReferenceId)
   const nodes = useScene((s) => s.nodes)
 
   // Show reference panel if a reference is selected
   if (selectedReferenceId) {
     return <ReferencePanel />
+  }
+
+  // Show zone panel when a zone is selected
+  if (zoneId) {
+    return <ZonePanel />
   }
 
   // Show appropriate panel based on selected node type
