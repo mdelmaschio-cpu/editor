@@ -3,6 +3,7 @@
 import { type AnyNodeId, useScene } from '@pascal-app/core'
 import { useViewer } from '@pascal-app/viewer'
 import useEditor from '../../../store/use-editor'
+import { BuildingPanel } from './building-panel'
 import { CeilingPanel } from './ceiling-panel'
 import { DoorPanel } from './door-panel'
 import { FencePanel } from './fence-panel'
@@ -19,6 +20,7 @@ import { ZonePanel } from './zone-panel'
 
 export function PanelManager() {
   const selectedIds = useViewer((s) => s.selection.selectedIds)
+  const buildingId = useViewer((s) => s.selection.buildingId)
   const zoneId = useViewer((s) => s.selection.zoneId)
   const selectedReferenceId = useEditor((s) => s.selectedReferenceId)
   const nodes = useScene((s) => s.nodes)
@@ -31,6 +33,11 @@ export function PanelManager() {
   // Show zone panel when a zone is selected
   if (zoneId) {
     return <ZonePanel />
+  }
+
+  // Show building panel when a building is selected with no element selection
+  if (buildingId && selectedIds.length === 0) {
+    return <BuildingPanel />
   }
 
   // Show appropriate panel based on selected node type
